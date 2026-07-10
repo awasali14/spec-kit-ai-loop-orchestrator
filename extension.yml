@@ -28,6 +28,12 @@ provides:
       description: "Run or resume the AI-assisted Spec Kit lifecycle with durable checkpoints."
 
 config:
+  - name: "ai-loop-orchestrator-config.yml"
+    template: "ai-loop-orchestrator-config.template.yml"
+    description: "Project-level lifecycle, checkpoint, commit, and practical QA settings."
+    required: false
+
+defaults:
   commits:
     enabled: true
     after_spec_kit_step: true

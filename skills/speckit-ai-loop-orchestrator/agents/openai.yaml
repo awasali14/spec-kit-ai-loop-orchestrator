@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec Kit AI Loop Orchestrator"
+  short_description: "Run resumable Spec Kit feature lifecycles"
+  default_prompt: "Use $speckit-ai-loop-orchestrator to run this idea through the complete Spec Kit lifecycle."

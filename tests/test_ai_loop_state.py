@@ -245,6 +245,27 @@ class AiLoopStateTests(unittest.TestCase):
         leftovers = list(self.state_path.parent.glob(f".{self.state_path.name}.*"))
         self.assertEqual(leftovers, [])
 
+    def test_invocation_parser_supports_all_modes_and_no_commit(self):
+        parsed = state.parse_invocation(
+            ["full", "idea files/feature ü.md", "--no-commit"]
+        )
+        self.assertEqual(
+            parsed,
+            {
+                "mode": "full",
+                "target": "idea files/feature ü.md",
+                "no_commit": True,
+            },
+        )
+        for mode in state.MODES:
+            self.assertEqual(state.parse_invocation([mode, "target"])["mode"], mode)
+
+    def test_invocation_parser_rejects_unknown_options_and_extra_paths(self):
+        with self.assertRaises(state.StateError):
+            state.parse_invocation(["full", "idea.md", "--force"])
+        with self.assertRaises(state.StateError):
+            state.parse_invocation(["status", "one", "two"])
+
 
 if __name__ == "__main__":
     unittest.main()

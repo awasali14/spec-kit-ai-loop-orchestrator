@@ -31,6 +31,7 @@ STAGES = (
     "operator_qa",
     "final_safety",
 )
+MODES = ("full", "prep", "analyze", "implement", "converge", "qa", "status")
 STAGE_STATUSES = {"pending", "running", "complete", "blocked", "skipped"}
 LOOP_STATUSES = {"running", "blocked", "complete", "stopped"}
 OPERATION_STATUSES = {"planned", "running"}
@@ -601,6 +602,30 @@ def state_summary(state: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def parse_invocation(arguments: list[str]) -> dict[str, Any]:
+    """Parse the portable command's small, deliberately strict argument surface."""
+    tokens = list(arguments)
+    if tokens and tokens[0] == "--":
+        tokens = tokens[1:]
+    no_commit = False
+    positionals: list[str] = []
+    for token in tokens:
+        if token == "--no-commit":
+            no_commit = True
+        elif token.startswith("--"):
+            raise StateError(f"unsupported option: {token}")
+        else:
+            positionals.append(token)
+    if not positionals:
+        raise StateError(f"mode is required; choose one of: {', '.join(MODES)}")
+    mode = positionals[0].lower()
+    if mode not in MODES:
+        raise StateError(f"unsupported mode: {positionals[0]}")
+    if len(positionals) != 2:
+        raise StateError(f"{mode} mode requires exactly one idea, feature, or tasks path")
+    return {"mode": mode, "target": positionals[1], "no_commit": no_commit}
+
+
 def _json_object(value: str) -> dict[str, Any]:
     try:
         parsed = json.loads(value)
@@ -614,6 +639,9 @@ def _json_object(value: str) -> dict[str, Any]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+
+    invocation = sub.add_parser("parse-invocation")
+    invocation.add_argument("arguments", nargs=argparse.REMAINDER)
 
     init = sub.add_parser("init", help="Initialize durable state and normalized intake")
     init.add_argument("--feature-dir", required=True)
@@ -693,7 +721,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        if args.command == "init":
+        if args.command == "parse-invocation":
+            output = parse_invocation(args.arguments)
+        elif args.command == "init":
             path, result = initialize_state(
                 repo_root=Path(args.repo_root),
                 feature_dir=args.feature_dir,
