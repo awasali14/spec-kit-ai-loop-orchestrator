@@ -1,0 +1,28 @@
+schema_version: "1.0"
+
+bundle:
+  id: "ai-loop-orchestrator-bundle"
+  name: "Spec Kit AI Loop Orchestrator Bundle"
+  version: "0.1.0"
+  role: "Full Spec Kit lifecycle orchestration for feature developers"
+  description: "Install tested versions of AI Loop Orchestrator and its Phase Orchestrator implementation engine together."
+  author: "awasali14"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=0.12.9"
+  tools:
+    - "python>=3.11"
+
+provides:
+  extensions:
+    - id: "phase-orchestrator"
+      version: "1.0.0"
+    - id: "ai-loop-orchestrator"
+      version: "0.1.0"
+
+tags:
+  - "workflow"
+  - "orchestration"
+  - "implementation"
+  - "quality"

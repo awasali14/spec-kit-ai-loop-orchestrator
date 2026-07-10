@@ -53,6 +53,11 @@ specify extension list
 specify extension info ai-loop-orchestrator
 ```
 
+For the initial engineer handoff, install Phase Orchestrator and this extension
+from their local checkout paths. Follow the complete
+[internal engineering test guide](./docs/internal-testing.md), including the
+required Spec Kit `0.12.9+` upgrade and Codex → Claude Code → Cursor order.
+
 Install Phase Orchestrator separately, or use the companion bundle after both
 component versions are available through the configured extension catalogs.
 
@@ -105,6 +110,8 @@ python3 -m unittest discover -s tests -v
 
 The detailed design record remains in
 [spec-kit-ai-loop-orchestrator-plan.md](./spec-kit-ai-loop-orchestrator-plan.md).
+Release and bundle promotion gates are in
+[docs/release-checklist.md](./docs/release-checklist.md).
 
 ## Branch strategy
 
