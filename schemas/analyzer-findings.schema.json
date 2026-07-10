@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/awasali14/spec-kit-ai-loop-orchestrator/schemas/analyzer-findings.schema.json",
+  "title": "AI Loop Analyzer Findings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "findings"],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "severity",
+          "category",
+          "title",
+          "description",
+          "artifact_refs",
+          "evidence",
+          "recommended_remediation"
+        ],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["Critical", "High", "Medium", "Low", "critical", "high", "medium", "low"]
+          },
+          "category": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "artifact_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "recommended_remediation": {"type": "string", "minLength": 1},
+          "fingerprint": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
