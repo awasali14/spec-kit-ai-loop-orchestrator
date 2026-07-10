@@ -1,0 +1,54 @@
+schema_version: "1.0"
+
+extension:
+  id: "ai-loop-orchestrator"
+  name: "Spec Kit AI Loop Orchestrator"
+  version: "0.1.0"
+  description: "Automate the Spec Kit lifecycle from idea file to phased implementation and practical QA."
+  author: "awasali14"
+  repository: "https://github.com/awasali14/spec-kit-ai-loop-orchestrator"
+  homepage: "https://github.com/awasali14/spec-kit-ai-loop-orchestrator"
+  license: "MIT"
+  category: "process"
+  effect: "read-write"
+
+requires:
+  speckit_version: ">=0.12.9"
+  tools:
+    - name: "python"
+      version: ">=3.11"
+      required: true
+    - name: "git"
+      required: false
+
+provides:
+  commands:
+    - name: "speckit.ai-loop-orchestrator.run"
+      file: "commands/run.md"
+      description: "Run or resume the AI-assisted Spec Kit lifecycle with durable checkpoints."
+
+config:
+  commits:
+    enabled: true
+    after_spec_kit_step: true
+    after_analyze_fix: true
+    implementation_phase_commits: true
+    after_converge_update: true
+    after_operator_qa_fix: true
+    final_report_checkpoint: true
+  limits:
+    persistent_analyzer_cycles: 3
+    persistent_analyzer_context_percent: 80
+    converge_passes: 3
+    operator_qa_fix_cycles: 3
+  human_checkpoints:
+    profile: "default"
+    review_timeout_seconds: 900
+    timeout_action: "continue"
+
+tags:
+  - "workflow"
+  - "orchestration"
+  - "specification"
+  - "implementation"
+  - "quality"

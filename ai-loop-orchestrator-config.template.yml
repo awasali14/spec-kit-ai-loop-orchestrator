@@ -1,0 +1,63 @@
+# Copy this file to ai-loop-orchestrator-config.yml beside the installed
+# extension. Keep machine-only overrides in ai-loop-orchestrator-config.local.yml.
+
+commits:
+  enabled: true
+  after_spec_kit_step: true
+  after_analyze_fix: true
+  implementation_phase_commits: true
+  after_converge_update: true
+  after_operator_qa_fix: true
+  final_report_checkpoint: true
+
+limits:
+  persistent_analyzer_cycles: 3
+  persistent_analyzer_context_percent: 80
+  converge_passes: 3
+  operator_qa_fix_cycles: 3
+
+human_checkpoints:
+  profile: default
+  review_packet_format: markdown
+  record_decisions: true
+  review_timeout_seconds: 900
+  timeout_action: continue
+  checkpoints:
+    preflight: required
+    after_clarify: review
+    after_plan: review
+    after_tasks: review
+    after_initial_analyzers: review
+    after_fresh_analyzer_a3: review
+    after_fresh_analyzer_a4: review
+    after_each_persistent_analyzer: review
+    on_analyze_limit: required
+    after_implementation_phase_summary: auto
+    after_each_converge: review
+    on_converge_limit: required
+    before_practical_qa: review
+    after_operator_findings: review
+    final_acceptance: required
+
+operator_qa:
+  start_command: null
+  automated_command: null
+  stop_command: null
+  manual_fallback: true
+  require_evidence: true
+  startup_timeout_seconds: 120
+  scenario_timeout_seconds: 300
+
+commands:
+  phase_orchestrator: speckit.phase-orchestrator.phase
+  constitution: speckit.constitution
+  specify: speckit.specify
+  clarify: speckit.clarify
+  plan: speckit.plan
+  checklist: speckit.checklist
+  tasks: speckit.tasks
+  analyze: speckit.analyze
+  converge: speckit.converge
+
+# Sensitive or machine-local values belong in environment variables prefixed
+# SPECKIT_AI_LOOP_ORCHESTRATOR_, never in committed configuration.
