@@ -1,8 +1,8 @@
 # Analyze Convergence Ledger
 
-Feature: `{{ feature_dir }}`  
-Ledger revision: `{{ revision }}`  
-Ready for implementation: **{{ ready_for_implementation }}**  
+Feature: `{{ feature_dir }}`
+Ledger revision: `{{ revision }}`
+Ready for implementation: **{{ ready_for_implementation }}**
 Blocking Critical/High findings: **{{ blocking_critical_high }}**
 
 | ID | Severity | Status | Category | Finding | Artifacts |
